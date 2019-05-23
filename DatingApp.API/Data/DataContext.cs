@@ -9,6 +9,7 @@ namespace DatingApp.API.Data
 
         public DbSet<Value> Values { get; set; }    //Pass Value (Entity) to the DB. Values is the table Name in SQL
 
+        public DbSet<User> Users { get; set; }
 
     }
 }
