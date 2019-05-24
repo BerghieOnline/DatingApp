@@ -65,20 +65,33 @@ namespace DatingApp.API.Controllers
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var token = new JwtSecurityToken(
+                issuer: "localhost",
+                audience: "localhost",
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds
+            );
+
+            return Ok(new 
             {
-                Subject = new ClaimsIdentity(claims), 
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new {
-                token = tokenHandler.WriteToken(token)
+                token = new JwtSecurityTokenHandler().WriteToken(token)
             });
+
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(claims), 
+            //    Expires = DateTime.Now.AddDays(1),
+            //    SigningCredentials = creds
+            //};
+
+            //var tokenHandler = new JwtSecurityTokenHandler();
+
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //return Ok(new {
+             //   token = tokenHandler.WriteToken(token)
+            //});
 
         }
     }
